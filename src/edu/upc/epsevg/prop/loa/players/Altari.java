@@ -169,9 +169,78 @@ public class Altari  implements IPlayer, IAuto
 	    }
 	    
 	    
-	    private int Heuristica(GameStatus s, CellType color) 
+	    private int Heuristica(GameStatus s, CellType color)
+	    //ESTRATEGIA VEINS
 	    {
-	    	return 1;
+	    	int heuristica = 0;
+	    	int qn = s.getNumberOfPiecesPerColor(color);
+	        ArrayList<Point> pendingAmazons = new ArrayList<>();
+	        for (int q = 0; q < qn; q++) {
+	            pendingAmazons.add(s.getPiece(color, q));
+	        }
+	    	for(int i = 0; i < qn; i++)
+	    	{
+	    		Point p = pendingAmazons.get(i);
+	    		heuristica += veins(p,color,s);
+	    	}
+	    	return heuristica / qn;
+	    }
+	    
+	    private int veins(Point p, CellType color, GameStatus s) 
+	    {
+	    	int valor = 0;
+	    	
+	    	Point aux = new Point(p.x + 1, p.y);		// (1,0)
+	    	if( (aux.x > 0) && (aux.y > 0) && (s.getSize() > aux.x) && (s.getSize() > aux.y)) 
+	    	{
+	    		if(s.getPos(aux) ==  color) valor+=100;	    		
+	    	} 	
+	    	
+	    	aux = new Point(p.x - 1, p.y);  			//(-1,0)
+	       	if( (aux.x > 0) && (aux.y > 0) && (s.getSize() > aux.x) && (s.getSize() > aux.y)) 
+	    	{
+	       		if(s.getPos(aux) ==  color) valor+=100;	    		   		
+	    	} 	
+	    	
+	    	aux = new Point(p.x, p.y +1);  				//(0,1)
+	       	if( (aux.x > 0) && (aux.y > 0) && (s.getSize() > aux.x) && (s.getSize() > aux.y)) 
+	    	{
+	       		if(s.getPos(aux) ==  color) valor+=100;	    		   		
+	    	} 	
+	    	
+	    	aux = new Point(p.x, p.y -1);  				//(0,-1)
+	       	if( (aux.x > 0) && (aux.y > 0) && (s.getSize() > aux.x) && (s.getSize() > aux.y)) 
+	    	{
+	       		if(s.getPos(aux) ==  color) valor+=100;	    		   		
+	    	} 	
+	    	
+	    	aux = new Point(p.x +1, p.y +1);  			//(1,1)
+	       	if( (aux.x > 0) && (aux.y > 0) && (s.getSize() > aux.x) && (s.getSize() > aux.y)) 
+	    	{
+	       		if(s.getPos(aux) ==  color) valor+=100;	    		   		
+	    	} 	
+	    	
+	    	aux = new Point(p.x -1, p.y +1);  			//(-1,1)
+	       	if( (aux.x > 0) && (aux.y > 0) && (s.getSize() > aux.x) && (s.getSize() > aux.y)) 
+	    	{
+	       		if(s.getPos(aux) ==  color) valor+=100;	    		   		
+	    	} 	
+	    	
+	    	aux = new Point(p.x +1, p.y -1);  			//(1,-1)
+	       	if( (aux.x > 0) && (aux.y > 0) && (s.getSize() > aux.x) && (s.getSize() > aux.y)) 
+	    	{
+	       		if(s.getPos(aux) ==  color) valor+=100;	    		   		
+	    	} 	
+	    	
+	    	aux = new Point(p.x -1, p.y -1);  			//(-1,-1)
+	       	if( (aux.x > 0) && (aux.y > 0) && (s.getSize() > aux.x) && (s.getSize() > aux.y)) 
+	    	{
+	       		if(s.getPos(aux) ==  color) valor+=100;	    		   		
+	    	} 	
+	    	
+
+	    	
+	    	return valor;
 	    }
 	    
 	    

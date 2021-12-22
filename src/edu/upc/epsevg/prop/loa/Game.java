@@ -22,10 +22,10 @@ public class Game {
             public void run() {
                 
                 //IPlayer player1 = new HumanPlayer("Octopus");
-                IPlayer player1 = new AltariTimed("Aleix");
+            	IPlayer player1 = new Altari("Aleix");
                 IPlayer player2 = new RandomPlayer("Crazy Ivan");
                                 
-                new Board(player1 , player2, 1, Level.DIFFICULT);
+                new Board(player1 , player2, 4, Level.DIFFICULT);
              }
         });
     }

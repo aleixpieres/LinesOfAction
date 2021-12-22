@@ -50,7 +50,7 @@ public class AltariTimed  implements IPlayer, IAuto
     	 int Alpha = Integer.MIN_VALUE;
     	 int Beta = Integer.MAX_VALUE;
     	 
-    	 Move Solucio = new Move(null,null,0,0,SearchType.MINIMAX);	    	 
+    	 Move Solucio = new Move(null,null,0,0,SearchType.MINIMAX_IDS);	    	 
     	 CellType color = s.getCurrentPlayer();
     	 while(profunditat_iterada <= profunditat) 
     	 {
@@ -74,7 +74,7 @@ public class AltariTimed  implements IPlayer, IAuto
             		 CellType contrari  = CellType.opposite(color);
             		 NewTauler.movePiece(QueenFrom,QueenTo);
             		 int eval = Minimitzador(NewTauler,contrari,profunditat_iterada-1,QueenTo,++NodesExplorats,Alpha,Beta);
-            		 Move NouMove = new Move(QueenFrom, QueenTo, NodesExplorats, profunditat_iterada, SearchType.MINIMAX);
+            		 Move NouMove = new Move(QueenFrom, QueenTo, NodesExplorats, profunditat_iterada, SearchType.MINIMAX_IDS);
     	        	 if(millorMoviment < eval) //S'HAN DE COMPARAR EL VALOR DE LES HEURISTIQUES
     	        	 {
     	        		 millorMoviment = eval;
