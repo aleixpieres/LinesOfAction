@@ -1,11 +1,8 @@
 package edu.upc.epsevg.prop.loa.players;
 
-import edu.upc.epsevg.prop.loa.CellType;
 import edu.upc.epsevg.prop.loa.GameStatus;
 import edu.upc.epsevg.prop.loa.IPlayer;
 import edu.upc.epsevg.prop.loa.Move;
-import java.awt.Point;
-import java.util.Random;
 
 /**
  * Jugador humà de LOA

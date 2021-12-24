@@ -23,8 +23,8 @@ public class Game {
                 
                 //IPlayer player1 = new HumanPlayer("Octopus");
             	IPlayer player1 = new Altari("Aleix");
-                //IPlayer player2 = new RandomPlayer("Crazy Ivan");
-                IPlayer player2 = new BuckyPlayer(4);
+                IPlayer player2 = new RandomPlayer("Crazy Ivan");
+                //IPlayer player2 = new BuckyPlayer(4);
                                 
                 new Board(player1 , player2, 4, Level.DIFFICULT);
              }

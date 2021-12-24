@@ -9,8 +9,6 @@ import edu.upc.epsevg.prop.loa.SearchType;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Jugador aleatori
@@ -84,27 +82,6 @@ public class RandomPlayer implements IPlayer, IAuto {
         return points.get(p);
     }
 
-    private boolean isInBounds(int x, int y) {
-        return (x >= 0 && x < s.getSize())
-                && (y >= 0 && y < s.getSize());
-    }
 
-    private Point posicioRandom(GameStatus s) {
-        int n = s.getEmptyCellsCount();
-
-        Random rand = new Random();
-        int p = rand.nextInt(n) + 1;//de 1 a n
-        for (int i = 0; i < s.getSize(); i++) {
-            for (int j = 0; j < s.getSize(); j++) {
-                if (s.getPos(i, j) == CellType.EMPTY) {
-                    p--;
-                    if (p == 0) {
-                        return new Point(i, j);
-                    }
-                }
-            }
-        }
-        throw new RuntimeException("Random exhausted");
-    }
 
 }

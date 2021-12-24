@@ -17,6 +17,8 @@ public class Altari  implements IPlayer, IAuto
 	    private String name;
 	    private int depth = 4;
 	    public int NodesExplorats = 0;
+	    
+	    
 	    public Altari(String name) {
 	        this.name = name;
 	    }
@@ -35,7 +37,7 @@ public class Altari  implements IPlayer, IAuto
 	     */
 	    @Override
 	    public Move move(GameStatus s) {
-
+	    	NodesExplorats = 0;
 	        Move BestMove =  MinMax(s);
 	        return BestMove;
 	    }
@@ -68,7 +70,8 @@ public class Altari  implements IPlayer, IAuto
 	        		 Point QueenTo = pendingMovements.get(j);
 	        		 CellType contrari  = CellType.opposite(color);
 	        		 NewTauler.movePiece(QueenFrom,QueenTo);
-	        		 int eval = Minimitzador(NewTauler,contrari,profunditat-1,QueenTo,++NodesExplorats,Alpha,Beta);
+	        		 ++NodesExplorats;
+	        		 int eval = Minimitzador(NewTauler,contrari,profunditat-1,QueenTo,Alpha,Beta);
 	        		 Move NouMove = new Move(QueenFrom, QueenTo, NodesExplorats, profunditat, SearchType.MINIMAX);
 		        	 if(millorMoviment < eval) //S'HAN DE COMPARAR EL VALOR DE LES HEURISTIQUES
 		        	 {
@@ -78,24 +81,25 @@ public class Altari  implements IPlayer, IAuto
 	        	 }
 	         }
 	         
-	         System.out.println(NodesExplorats);
+	         System.out.println("Nodes Explorats En TOTAL -> " + NodesExplorats);
 	         return Solucio;
 	         
 	    	
 	    }
 	    
-	    private int Minimitzador(GameStatus s, CellType color, int profunditat, Point posicio, int NodesExplorats, int Alpha, int Beta) 
+	    private int Minimitzador(GameStatus s, CellType color, int profunditat, Point posicio, int Alpha, int Beta) 
 	    {
 	    	int valor = Integer.MAX_VALUE;
    		 	ArrayList<Point> pendingAmazons = new ArrayList<>();
 	    	ArrayList<Point> pendingMovements = new ArrayList<>();
-        	pendingMovements = s.getMoves(posicio);
+        	pendingMovements = s.getMoves(posicio); 
 	    	if(s.isGameOver()) 
 	    	{
 	    		++NodesExplorats;
 	    		return Integer.MAX_VALUE;
 	    	} else if(profunditat == 0) 
 	    	{
+	    		++NodesExplorats;
 	    		return Heuristica(s, color);
 	    		
 	    	}else {
@@ -108,25 +112,23 @@ public class Altari  implements IPlayer, IAuto
 		        	 pendingMovements = s.getMoves(pendingAmazons.get(i));
 		        	 for(int j = 0; j< pendingMovements.size();j++) 
 		        	 {
+		        		 ++NodesExplorats;
 		        		 Point QueenFrom = pendingAmazons.get(i);
 		        		 Point QueenTo = pendingMovements.get(j);
 		        		 GameStatus NewTauler = new GameStatus(s);
 		        		 NewTauler.movePiece(QueenFrom,QueenTo);
-		        		 int eval = Maximitzador(NewTauler,CellType.opposite(color),profunditat-1,QueenTo,++NodesExplorats,Alpha,Beta);
+		        		 int eval = Maximitzador(NewTauler,CellType.opposite(color),profunditat-1,QueenTo,Alpha,Beta);
 		        		 valor =  Math.min(valor,eval);
 		        		 
-		        		 if(valor <= Alpha) 
-		                    {
-		                        return valor;
-		                    }
-		        		 Beta = Math.min(valor, Beta);
+		  
 		        	 }
 		         }
+		        //System.out.println("Nodes Explorats MINIMITZADOR -> " + NodesExplorats);
 	    		return valor;
 	    	}
 	    }
 	    
-	    private int Maximitzador(GameStatus s, CellType color, int profunditat, Point posicio, int NodesExplorats, int Alpha, int Beta) 
+	    private int Maximitzador(GameStatus s, CellType color, int profunditat, Point posicio, int Alpha, int Beta) 
 	    {
 	    	int valor = Integer.MIN_VALUE;
    		 	ArrayList<Point> pendingAmazons = new ArrayList<>();
@@ -138,6 +140,7 @@ public class Altari  implements IPlayer, IAuto
 	    		return Integer.MIN_VALUE;
 	    	} else if(profunditat == 0) 
 	    	{
+	    		++NodesExplorats;
 	    		return Heuristica(s, color);
 	    		
 	    	} else {
@@ -150,20 +153,18 @@ public class Altari  implements IPlayer, IAuto
 		        	 pendingMovements = s.getMoves(pendingAmazons.get(i));
 		        	 for(int j = 0; j< pendingMovements.size();j++) 
 		        	 {
+		        		 ++NodesExplorats;
 		        		 Point QueenFrom = pendingAmazons.get(i);
 		        		 Point QueenTo = pendingMovements.get(j);
 		        		 GameStatus NewTauler = new GameStatus(s);
 		        		 NewTauler.movePiece(QueenFrom,QueenTo);
-		        		 int eval = Minimitzador(NewTauler,CellType.opposite(color),profunditat-1,QueenTo,++NodesExplorats,Alpha,Beta);
+		        		 int eval = Minimitzador(NewTauler,CellType.opposite(color),profunditat-1,QueenTo,Alpha,Beta);
 		        		 valor =  Math.max(valor,eval);
 		                 
-		        		 if(Beta <= valor) //es compleix la condicio de la poda
-		                 {
-		        			 return valor;
-		                 }
-		        		 Alpha = Math.max(valor, Alpha); 
+		       
 		        	 }
 		         }
+		         //System.out.println("Nodes Explorats MAXIMITZADOR -> " + NodesExplorats);
 	    		return valor;
 	    	}
 	    }
@@ -183,7 +184,7 @@ public class Altari  implements IPlayer, IAuto
 	    		Point p = pendingAmazons.get(i);
 	    		heuristica += veins(p,color,s);
 	    	}
-	    	return heuristica / qn;
+	    	return (heuristica / qn);
 	    }
 	    
 	    private int veins(Point p, CellType color, GameStatus s) 
@@ -239,7 +240,6 @@ public class Altari  implements IPlayer, IAuto
 	    	} 	
 	    	
 
-	    	
 	    	return valor;
 	    }
 	    
