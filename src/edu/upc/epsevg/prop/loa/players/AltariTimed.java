@@ -45,7 +45,15 @@ public class AltariTimed  implements IPlayer, IAuto
         return BestMove;
     }
     
-    private Move MinMax(GameStatus s) 
+    /**
+     * Genera tots els moviments possibles per el jugador que fa la crida,
+     * i fa una crida recursiva al algorisme Minimax(Minimitzador + Maximitzador) amb un temps limit
+     * 
+     * 
+     * @param s Tauler i estat actual del joc
+     * @return el millor moviment possible pel jugador donat el estat actual i el tauler
+     */
+    public Move MinMax(GameStatus s) 
     {	
     	 int millorMoviment = 0;
     	 int profunditat = this.depth;
@@ -105,7 +113,19 @@ public class AltariTimed  implements IPlayer, IAuto
     	
     }
     
-    private int Minimitzador(GameStatus s, CellType color, int profunditat, Point posicio, int Alpha, int Beta) 
+    /**
+     * Genera tots els moviments possibles per el tauler donat i ens retorna el moviement amb una menor heuristica
+     * 
+     * 
+     * @param s Tauler i estat actual del joc
+     * @param color Jugador actual 
+     * @param profunditat Profunditat actual
+     * @param posicio Ultima posicio del moviment previ
+     * @param Alpha Valor alpha
+     * @param Beta Valor Beta
+     * @return el pitjor valor heuristic possible pel jugador donat el estat actual i el tauler
+     */
+    public int Minimitzador(GameStatus s, CellType color, int profunditat, Point posicio, int Alpha, int Beta) 
     {
     	
     	int valor = Integer.MAX_VALUE;
@@ -149,7 +169,19 @@ public class AltariTimed  implements IPlayer, IAuto
     	}
     }
     
-    private int Maximitzador(GameStatus s, CellType color, int profunditat, Point posicio, int Alpha, int Beta) 
+    /**
+     * Genera tots els moviments possibles per el tauler donat i ens retorna el moviement amb una menor heuristica
+     * 
+     * 
+     * @param s Tauler i estat actual del joc
+     * @param color Jugador actual 
+     * @param profunditat Profunditat actual
+     * @param posicio Ultima posicio del moviment previ
+     * @param Alpha Valor alpha
+     * @param Beta Valor Beta
+     * @return el millor valor heuristic possible pel jugador donat el estat actual i el tauler
+     */
+    public int Maximitzador(GameStatus s, CellType color, int profunditat, Point posicio, int Alpha, int Beta) 
     {
     	int valor = Integer.MIN_VALUE;
 		 ArrayList<Point> pendingAmazons = new ArrayList<>();
@@ -192,8 +224,15 @@ public class AltariTimed  implements IPlayer, IAuto
     	}
     }
     
-    
-    private int Heuristica(GameStatus s, CellType color)
+    /**
+     *  Ens calcula una heuristica per el jugador donat i el estat del tauler actual, aplicant la 
+     *  evaluacio de veins
+     * 
+     * @param s Tauler i estat actual del joc
+     * @param color Jugador actual
+     * @return un valor numeric segons la situacio actual per el jugador donat
+     */
+    public int Heuristica(GameStatus s, CellType color)
     //ESTRATEGIA VEINS
     {
     	int heuristica = 0;
@@ -210,7 +249,16 @@ public class AltariTimed  implements IPlayer, IAuto
     	return (heuristica / qn);
     }
     
-    private int veins(Point p, CellType color, GameStatus s) 
+    /**
+     * Aplicam la estretegia veins, que consisteix en observar totes les peces que estan en conctacte
+     * amb la peca donada i sumar un valor numeric a l'heuristica
+     * 
+     * @param p Peca que esteim evaluant actualment
+     * @param color Jugador actual
+     * @param s Tauler i estat actual del joc
+     * @return el millor moviment possible pel jugador donat el estat actual i el tauler
+     */
+    public int veins(Point p, CellType color, GameStatus s) 
     {
     	int valor = 0;
     	
